@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <title>Registrar Empleado</title>
+
+
+<script>
+    function toggleContenido(contenidoId, event) {
+            event.preventDefault();
+            const contenidoSeleccionado = document.getElementById(contenidoId);
+            const contenidos = document.querySelectorAll('.contenido-seccion');
+            
+            if (contenidoSeleccionado && contenidoSeleccionado.style.display === 'block') {
+                contenidoSeleccionado.style.display = 'none';
+            } else {
+                // Ocultamos todos los contenidos primero
+                contenidos.forEach(cont => cont.style.display = 'none');
+
+                // Mostramos el contenido seleccionado
+                if (contenidoSeleccionado) {
+                 contenidoSeleccionado.style.display = 'block';
+                }
+            }
+        }
+</script>
+</head>
+<body>
+    <h1>Registrar Nuevo Empleado</h1>
+    <li><a href="#" onclick="toggleContenido('form-registro-empleado', event)">Registrar Empleado</a></li>
+    <div id="form-registro-empleado" class="contenido-seccion" style="display: none;">
+        <form method="POST" action="{% url 'jefeventa:registrar_empleado' %}">
+            {% csrf_token %}
+            <label for="usuario">Usuario:</label>
+            <input type="text" name="usuario" id="usuario" required><br>
+            <label for="run">RUN:</label>
+            <input type="text" name="run" id="run" required><br>
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" id="nombre" required><br>
+            <label for="apellido">Apellido:</label>
+            <input type="text" name="apellido" id="apellido" required><br>
+            <label for="direccion">Dirección:</label>
+            <input type="text" name="direccion" id="direccion" required><br>
+            <label for="rol">Rol:</label>
+            <select name="rol" id="rol">
+                <option value="jefe">Jefe de Ventas</option>
+                <option value="vendedor">Vendedor</option>
+            </select><br>
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" name="contrasena" id="contrasena" required><br>
+            <button type="submit">Registrar</button>
+        </form>
+
+    </div>
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+    <a href="{% url 'jefeventa:menu_jefe' %}">Volver</a>
+    
+</html>

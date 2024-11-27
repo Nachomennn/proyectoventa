@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <title>Detalles de la Venta</title>
+</head>
+<body>
+    <h1>Detalles de la Venta</h1>
+
+    <!-- Información General de la Venta -->
+    <p><strong>ID de la Venta:</strong> {{ venta.id }}</p>
+    <p><strong>Fecha:</strong> {{ venta.fecha }}</p>
+    <p><strong>Vendedor:</strong> {{ venta.vendedor.nombre }} {{ venta.vendedor.apellido }}</p>
+    <p><strong>Tipo de Documento:</strong> {{ venta.tipo_documento }}</p>
+    <p><strong>Método de Pago:</strong> {{ venta.metodo_pago }}</p>
+    <p><strong>Total Neto:</strong> ${{ venta.total_neto }}</p>
+    <p><strong>Total con IVA:</strong> ${{ venta.total_con_iva }}</p>
+
+    <!-- Lista de Detalles de la Venta -->
+    <h2>Productos Vendidos</h2>
+    {% if detalles %}
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for detalle in detalles %}
+            <tr>
+                <td>{{ detalle.nombre }}</td>
+                <td>{{ detalle.cantidad }}</td>
+                <td>${{ detalle.precio_unitario }}</td>
+                <td>${{ detalle.subtotal }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No se encontraron detalles para esta venta.</p>
+    {% endif %}
+    <a href="{% url 'vendedor:menu_vendedor' %}">Volver al Menú</a>
+</body>
+</html>

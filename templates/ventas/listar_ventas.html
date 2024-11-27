@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Lista de Ventas</title>
+</head>
+<style>
+    /* Estilos generales */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+        min-height: 100vh;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    header {
+        background: linear-gradient(135deg, #4CAF50, #45a049);
+        color: white;
+        text-align: center;
+        padding: 2rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 2.5rem;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #007bff;
+        color: white;
+    }
+
+    td {
+        border-bottom: 1px solid #ddd;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tbody tr:hover {
+        background-color: #f0f0f0;
+    }
+
+    a {
+        display: inline-block;
+        margin-top: 20px;
+        text-decoration: none;
+        color: #007bff;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    /* Botón ver detalles */
+    .details-button {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+        margin: 0 auto;
+    }
+
+    .details-button:hover {
+        background-color: #0057b3b3;
+    }
+
+
+
+
+    
+    /* Botón de cerrar sesión */
+    .logout-button {
+            display: block;
+            width: max-content;
+            margin: 30px auto;
+            padding: 12px 25px;
+            background-color: #d00e0e;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+    .logout-button:hover {
+        background-color: #f90a0a;
+        transform: translateY(-2px);
+    }
+
+    /* Tabla */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    
+    table th, table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    table th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    table tr:hover {
+        background-color: #ddd;
+    }
+
+    table td {
+        color: #333;
+    }
+
+    table th, table td {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+
+
+</style>
+<body>
+    <h1>Lista de Ventas</h1>
+
+    <!-- Botón para exportar a Excel -->
+    <form method="get" action="{% url 'vendedor:exportar_ventas_excel' %}" style="margin-bottom: 20px;">
+        <button type="submit">Exportar a Excel</button>
+    </form>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Fecha / Hora</th>
+                <th>Vendedor</th>
+                <th>Total Neto</th>
+                <th>Total con IVA</th>
+                <th>Tipo Documento</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for venta in ventas %}
+            <tr>
+                <td>{{ venta.id }}</td>
+                <td>{{ venta.fecha }}</td>
+                <td>{{ venta.vendedor.nombre }} {{ venta.vendedor.apellido }}</td>
+                <td>${{ venta.total_neto }}</td>
+                <td>${{ venta.total_con_iva }}</td>
+                <td>{{ venta.tipo_documento }}</td>
+                <td><a href="{% url 'vendedor:detalles_venta' venta.id origen %}" class="details-button">Ver Detalles</a></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">No hay ventas registradas.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <a href="{% if origen == 'jefeventa' %}{% url 'jefeventa:menu_jefe' %}{% else %}{% url 'vendedor:menu_vendedor' %}{% endif %}" class="logout-button">
+        Volver al Menú
+    </a>
+</body>
+</html>

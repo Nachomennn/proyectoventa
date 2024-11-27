@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <title>Listar Productos</title>
+</head>
+
+<style>
+    /* Botón de cerrar sesión */
+    .logout-button {
+            display: block;
+            width: max-content;
+            margin: 30px auto;
+            padding: 12px 25px;
+            background-color: #16d90f;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+    .logout-button:hover {
+        background-color: #abe90d;
+        transform: translateY(-2px);
+    }
+
+    /*Botón editar*/
+    .edit-button {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+    .edit-button:hover {
+        background-color: #0056b3;
+    }
+
+    /* Botón eliminar */
+    .delete-button {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #dc3545;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+    .delete-button:hover {
+        background-color: #c82333;
+    }
+
+</style>
+
+<body>
+    <h1>Lista de Productos</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Código de Barra</th>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Foto</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+            <tr>
+                <td>{{ producto.codigoBarra }}</td>
+                <td>{{ producto.nombre }}</td>
+                <td>
+                    {% if producto.categoria %}
+                        {{ producto.categoria.nombre }}
+                    {% else %}
+                        Sin categoría
+                    {% endif %}
+                </td>
+                <td>{{ producto.precio }}</td>
+                <td>{{ producto.stock }}</td>
+                <td>{{ producto.descripcion }}</td>
+                <td>
+                    {% if producto.estado == 0 %}
+                        Activo
+                    {% else %}
+                        Inactivo
+                    {% endif %}
+                </td>
+                <td>
+                    {% if producto.foto %}
+                        <img src="{{ producto.foto.url }}" alt="{{ producto.nombre }}" width="50">
+                    {% else %}
+                        Sin foto
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'productos:editar_producto' producto.codigoBarra %}" class="edit-button">Editar</a> 
+                    <a href="{% url 'productos:eliminar_producto' producto.codigoBarra %}" class="delete-button">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- Enlace para volver al menú del jefe -->
+    <p>
+        <a href="{% url 'jefeventa:menu_jefe' %}" class="logout-button">Volver al Menú del Jefe</a>
+    </p>
+</body>
+</html>

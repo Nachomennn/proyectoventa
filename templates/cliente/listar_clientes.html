@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    
+    <title>Lista de Clientes</title>
+<style>
+    /* Estilos generales */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+        min-height: 100vh;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    header {
+        background: linear-gradient(135deg, #4CAF50, #45a049);
+        color: rgb(200, 20, 20);
+        text-align: center;
+        padding: 2rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 2.5rem;
+        color: white;
+    }
+
+    /* Footer */
+    footer {
+        text-align: center;
+        padding: 20px;
+        background-color: #333;
+        color: white;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+
+    /* Tabla */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    
+    table th, table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    table th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    table tr:hover {
+        background-color: #ddd;
+    }
+
+    table td {
+        color: #333;
+    }
+    
+    table th, table td {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+
+    /* Botón de cerrar sesión */
+    .logout-button {
+            display: block;
+            width: max-content;
+            margin: 30px auto;
+            padding: 12px 25px;
+            background-color: #d00e0e;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+    .logout-button:hover {
+        background-color: #f90a0a;
+        transform: translateY(-2px);
+    }
+
+    /*Botón editar*/
+    .edit-button {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+    .edit-button:hover {
+        background-color: #0057b3b3;
+    }
+
+    /* Botón eliminar */
+    .delete-button {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #dc3545;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+    .delete-button:hover {
+        background-color: #c82333;
+    }
+
+
+    /* Botón para registrar */
+    .register-button {
+        display: block;
+        width: max-content;
+        margin: 30px auto;
+        padding: 12px 25px;
+        background-color: #4CAF50;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+</style>
+</head>
+
+
+
+<body>
+    <header><h1>Lista de Clientes</h1></header>
+    
+    <a href="{% url 'cliente:registrar_cliente' %}" class="register-button">Registrar Nuevo Cliente</a>
+    <table>
+        <thead>
+            <tr>
+                <th>RUT</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Dirección</th>
+                <th>Razón Social</th>
+                <th>Giro</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cliente in clientes %}
+                <tr>
+                    <td>{{ cliente.rut }}</td>
+                    <td>{{ cliente.nombres }}</td>
+                    <td>{{ cliente.apellidos }}</td>
+                    <td>{{ cliente.direccion|default:"No ingresada" }}</td>
+                    <td>{{ cliente.razon_social|default:"No ingresada" }}</td>
+                    <td>{{ cliente.giro|default:"No ingresado" }}</td>
+                    <td class="actions">
+                        <a href="{% url 'cliente:editar_cliente' cliente.id %}" class="edit-button">Editar</a>
+                        <a href="{% url 'cliente:eliminar_cliente' cliente.id %}" onclick="return confirm('¿Estás seguro de eliminar este cliente?');" class="delete-button">Eliminar</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="7">No hay clientes registrados.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% if origen == 'jefeventa' %}{% url 'jefeventa:menu_jefe' %}{% else %}{% url 'vendedor:menu_vendedor' %}{% endif %}" class="logout-button">
+        Volver al Menú
+    </a>
+    
+</body>
+</html>

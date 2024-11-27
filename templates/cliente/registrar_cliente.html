@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <title>Registrar Cliente</title>
+</head>
+<body>
+    <h1>Registrar Cliente</h1>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <label for="rut">RUT:</label>
+        <input type="text" id="rut" name="rut" required>
+        <br>
+        <label for="nombres">Nombres:</label>
+        <input type="text" id="nombres" name="nombres" required>
+        <br>
+        <label for="apellidos">Apellidos:</label>
+        <input type="text" id="apellidos" name="apellidos" required>
+        <br>
+        <label for="direccion">Dirección:</label>
+        <input type="text" id="direccion" name="direccion">
+        <br>
+        <label for="razon_social">Razón Social:</label>
+        <input type="text" id="razon_social" name="razon_social">
+        <br>
+        <label for="giro">Giro:</label>
+        <input type="text" id="giro" name="giro">
+        <br>
+        <button type="submit">Registrar</button>
+    </form>
+</body>
+</html>

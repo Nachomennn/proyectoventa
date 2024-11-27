@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Cliente</title>
+</head>
+<body>
+    <h1>Editar Cliente</h1>
+
+    <!-- Mostrar error si existe -->
+    {% if error %}
+        <div style="color: red;">{{ error }}</div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        
+        <label for="rut">RUT:</label>
+        <input type="text" id="rut" name="rut" value="{{ cliente.rut }}" required>
+
+        <label for="nombres">Nombres:</label>
+        <input type="text" id="nombres" name="nombres" value="{{ cliente.nombres }}" required>
+
+        <label for="apellidos">Apellidos:</label>
+        <input type="text" id="apellidos" name="apellidos" value="{{ cliente.apellidos }}" required>
+
+        <label for="direccion">Dirección:</label>
+        <input type="text" id="direccion" name="direccion" value="{{ cliente.direccion }}">
+
+        <label for="razon_social">Razón Social:</label>
+        <input type="text" id="razon_social" name="razon_social" value="{{ cliente.razon_social }}">
+
+        <label for="giro">Giro:</label>
+        <input type="text" id="giro" name="giro" value="{{ cliente.giro }}">
+
+        <button type="submit">Guardar Cambios</button>
+    </form>
+    <a href="{% url 'cliente:listar_cliente' %}">Volver</a>
+</body>
+</html>

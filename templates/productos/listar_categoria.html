@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <title>Listar Categorías</title>
+</head>
+
+<style>
+    /* Botón de cerrar sesión */
+    .logout-button {
+            display: block;
+            width: max-content;
+            margin: 30px auto;
+            padding: 12px 25px;
+            background-color: #16d90f;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+    .logout-button:hover {
+        background-color: #abe90d;
+        transform: translateY(-2px);
+    }
+
+    /*Botón editar*/
+    .edit-button {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+        margin-right: 20px;
+    }
+
+    .edit-button:hover {
+        background-color: #0056b3;
+    }
+
+    /* Botón eliminar */
+    .delete-button {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #dc3545;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+        
+        
+    }
+
+    .delete-button:hover {
+        background-color: #c82333;
+    }
+
+</style>
+
+<body>
+    <h1 style="text-align: center;">Listado de Categorías</h1>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 10%;">ID</th>
+                <th style="width: 60%;">Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for categoria in categorias %}
+            <tr>
+                <td>{{ categoria.id }}</td>
+                <td>{{ categoria.nombre }}</td>
+                <td>
+                    <a href="{% url 'productos:editar_categoria' categoria.id %}" class="edit-button">Editar</a> 
+                    <a href="{% url 'productos:eliminar_categoria' categoria.id %}" onclick="return confirm('¿Estás seguro de eliminar esta categoría?');" class="delete-button">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">No hay categorías disponibles</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'jefeventa:menu_jefe' %}" class="logout-button">Volver</a>
+</body>
+</html>

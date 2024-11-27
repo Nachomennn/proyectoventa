@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <title>Agregar Producto</title>
+</head>
+<body>
+    <h1>Agregar Producto</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="codigoBarra">Código de Barra:</label>
+        <input type="text" name="codigoBarra" required><br>
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="nombre" required><br>
+
+        <label for="precio">Precio:</label>
+        <input type="number" step="0.01" name="precio" required><br>
+
+        <label for="stock">Stock:</label>
+        <input type="number" name="stock" required><br>
+
+        <label for="descripcion">Descripción:</label>
+        <textarea name="descripcion" required></textarea><br>
+
+        <label for="categoria">Categoría:</label>
+        <select name="categoria" required>
+            {% for categoria in categorias %}
+            <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="foto">Foto:</label>
+        <input type="file" name="foto"><br>
+
+        <button type="submit">Agregar</button>
+    </form>
+</body>
+<!-- Enlace para volver al menú del jefe -->
+<p>
+    <a href="{% url 'jefeventa:menu_jefe' %}">Volver al Menú del Jefe</a>
+</p>
+</html>

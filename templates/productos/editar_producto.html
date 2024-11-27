@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <title>Editar Producto</title>
+</head>
+<body>
+    <h1>Editar Producto</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" value="{{ producto.nombre }}" required><br>
+
+        <label for="precio">Precio:</label>
+        <input type="number" id="precio" name="precio" value="{{ producto.precio }}" step="0.01" required><br>
+
+        <label for="stock">Stock:</label>
+        <input type="number" id="stock" name="stock" value="{{ producto.stock }}" required><br>
+
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" name="descripcion" required>{{ producto.descripcion }}</textarea><br>
+
+        <label for="categoria">Categoría:</label>
+        <select id="categoria" name="categoria">
+            {% for categoria in categorias %}
+                <option value="{{ categoria.id }}" {% if producto.categoria and producto.categoria.id == categoria.id %}selected{% endif %}>
+                    {{ categoria.nombre }}
+                </option>
+            {% endfor %}
+        </select><br>
+
+        <label for="foto">Foto:</label>
+        <input type="file" id="foto" name="foto"><br>
+        {% if producto.foto %}
+            <p>Foto actual:</p>
+            <img src="{{ producto.foto.url }}" alt="Foto del producto" width="100">
+        {% endif %}
+
+        <button type="submit">Guardar</button>
+    </form>
+    <!-- Enlace para volver al menú del jefe -->
+    <p>
+        <a href="{% url 'jefeventa:menu_jefe' %}">Volver al Menú del Jefe</a>
+    </p>
+</body>
+</html>
